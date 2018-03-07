@@ -7,6 +7,7 @@ body {
 
 a, a:hover, a:visited {
     color: #646464;
+    text-decoration: none;
 }
 
 header {
@@ -26,7 +27,6 @@ header h1 {
 
 header h1 a.site-title {
     color: #FFDE57;
-    text-decoration: none;
 }
 
 header nav {

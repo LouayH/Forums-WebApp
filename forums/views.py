@@ -19,3 +19,9 @@ def topic_add(request):
         return redirect('index')
     else:
         return render(request, 'topic_add.html')
+
+def topic_show(request, id):
+    context = {
+        'post': posts_store.get_by_id(id)
+    }
+    return render(request, 'topic_show.html', context)
