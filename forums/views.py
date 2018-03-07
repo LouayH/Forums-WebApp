@@ -11,3 +11,11 @@ def index(request):
         'posts': posts_store.get_all()
     }
     return render(request, 'index.html', context)
+
+def topic_add(request):
+    if request.method == "POST":
+        new_post = models.Post(request.POST["title"], request.POST["content"])
+        posts_store.add(new_post)
+        return redirect('index')
+    else:
+        return render(request, 'topic_add.html')

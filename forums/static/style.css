@@ -51,10 +51,34 @@ main {
     margin-bottom: 50px;
 }
 
-article {
+article, form {
     margin: 0 10px 10px 10px;
     padding: 0 20px;
     overflow: auto;
+}
+
+form input[type="text"] {
+    box-sizing: border-box;
+    outline: none;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+}
+
+form input[type="submit"] {
+    float: left;
+    display: block;
+    box-sizing: content-box;
+    outline: none;
+    margin: 0;
+    border: 0;
+    border-radius: 5px;
+    height: 20px;
+    padding: 8px 10px 7px 10px;
+    background: #646464;
+    color: #FFDE57;
 }
 
 article header {
