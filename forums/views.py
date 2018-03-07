@@ -25,3 +25,16 @@ def topic_show(request, id):
         'post': posts_store.get_by_id(id)
     }
     return render(request, 'topic_show.html', context)
+
+def topic_edit(request, id):
+    post = posts_store.get_by_id(id)
+    context = {
+        'post': post
+    }
+    if request.method == "POST":
+        post.title = request.POST["title"]
+        post.content = request.POST["content"]
+        posts_store.update(post)
+        return render(request, 'topic_show.html', context)
+    else:
+        return render(request, 'topic_edit.html', context)
