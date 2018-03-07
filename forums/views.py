@@ -38,3 +38,7 @@ def topic_edit(request, id):
         return render(request, 'topic_show.html', context)
     else:
         return render(request, 'topic_edit.html', context)
+
+def topic_delete(request, id):
+    posts_store.delete(id)
+    return redirect('index')

@@ -8,7 +8,7 @@
                         <a href="{% url 'topic_edit' id=post.id %}" class="button">
                             Edit
                         </a>
-                        <a href="#" class="button">
+                        <a href="{% url 'topic_delete' id=post.id %}" class="button">
                             Delete
                         </a>
                     </div>
