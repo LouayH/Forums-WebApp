@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #646464;
+    font-family: Raleway;
+}
+
+a, a:hover, a:visited {
+    color: #646464;
+    text-decoration: none;
+}
+
+header {
+    margin: 10px;
+    border-radius: 5px;
+    height: 45px;
+    background: #646464;
+    color: #FFDE57;
+}
+
+header h1 {
+    float: left;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+header h1 a.site-title {
+    color: #FFDE57;
+}
+
+header nav {
+    float: right;
+    margin: 0 10px;
+}
+
+header nav a.nav-item {
+    float: left;
+    display: block;
+    height: 20px;
+    color: #FFDE57;
+    text-decoration: none;
+    padding: 13px 10px 12px 10px;
+}
+
+header nav a.current {
+    background: #000;
+}
+
+main {
+    margin-bottom: 50px;
+}
+
+article, form {
+    margin: 0 10px 10px 10px;
+    padding: 0 20px;
+    overflow: auto;
+}
+
+form input[type="text"] {
+    box-sizing: border-box;
+    outline: none;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+}
+
+form input[type="submit"] {
+    float: left;
+    display: block;
+    box-sizing: content-box;
+    outline: none;
+    margin: 0;
+    border: 0;
+    border-radius: 5px;
+    height: 20px;
+    padding: 8px 10px 7px 10px;
+    background: #646464;
+    color: #FFDE57;
+}
+
+article header {
+    background: #fff;
+    color: #646464;
+    height: 35px;
+    margin: 3px 0;
+}
+
+article header h2 {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+article header div {
+    float: right;
+}
+article header div a.button {
+    float: left;
+    display: block;
+    border-radius: 5px;
+    height: 20px;
+    background: #646464;
+    color: #FFDE57;
+    text-decoration: none;
+    margin: 0 0 0 5px;
+    padding: 8px 10px 7px 10px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    margin-top: 10px;
+    border-top: 1px #646464 solid;
+    background: #ffffff;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+}
