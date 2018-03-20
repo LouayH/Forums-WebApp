@@ -41,6 +41,7 @@ header nav a.nav-item {
     color: #FFDE57;
     text-decoration: none;
     padding: 13px 10px 12px 10px;
+    cursor: pointer;
 }
 
 header nav a.current {
@@ -51,10 +52,18 @@ main {
     margin-bottom: 50px;
 }
 
+section#topics {
+    overflow: auto;
+}
+
 article, form {
     margin: 0 10px 10px 10px;
     padding: 0 20px;
     overflow: auto;
+}
+
+form#api-topic {
+    display: none;
 }
 
 form input[type="text"] {
@@ -98,6 +107,7 @@ article header div {
     float: right;
 }
 article header div a.button {
+    cursor: pointer;
     float: left;
     display: block;
     border-radius: 5px;

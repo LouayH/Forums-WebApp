@@ -1,12 +1,13 @@
 {% extends 'master.html'%}
 {% block content %}
     <main>
-        {% for post in posts %}
-            <article>
-                <header>
-                    <h2><a href="{% url 'topic_show' id=post.id %}">{{ post.title }}</a></h2>
-                </header>
-            </article>
-        {% endfor %}
+        <section id="topics">
+
+        </section>
+        <form id="api-topic">
+            <input type="text" name="title" placeholder="Post Title" />
+            <input type="text" name="content" placeholder="Post Content" />
+            <input type="submit" id="submit" value="Save" />
+        </form>
     </main>
 {% endblock %}
