@@ -11,6 +11,14 @@ class Member():
 	def __str__(self):
 		return (f"{self.name}, {self.age} Years Old")
 
+	def __dict__(self):
+		return {
+			"id": self.id,
+			"name": self.name,
+			"age": self.age,
+			"posts": self.posts
+		}
+
 class Post():
 	"""This class provides a way to store post title and content"""
 
@@ -23,3 +31,12 @@ class Post():
 
 	def __str__(self):
 		return (f"{self.title}, {self.content[:20]}...")
+
+	def __dict__(self):
+		return {
+			"id": self.id,
+			"title": self.title,
+			"content": self.content,
+			"member_id": self.member_id,
+			"date": self.date
+		}
