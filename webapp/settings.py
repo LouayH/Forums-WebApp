@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:password@127.0.0.1:5432/forums')
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
 # Password validation
