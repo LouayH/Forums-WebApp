@@ -1,116 +1,116 @@
-        <footer>
-            <div>1 Million Arab Coders &copy; Udacity</div>
-            <small>
-                <a href="http://louayhamada.com" target="_blank">Louay Hamada</a>
-                <a href="https://github.com/LouayH/Forums-WebApp" target="_blank">v:1.0.1</a>
-            </small>
-        </footer>
-        {% load static %}
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
-        <script>
-        $(function() {
-            var url, type, scroll, article, topic, id, title, content;
+<footer>
+    <div>1 Million Arab Coders &copy; Udacity</div>
+    <small>
+        <a href="http://louayhamada.com" target="_blank">Louay Hamada</a>
+        <a href="https://github.com/LouayH/Forums-WebApp" target="_blank">v:1.0.1</a>
+    </small>
+</footer>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>
+$(function() {
+    var url, type, scroll, article, topic, id, title, content;
 
-            get_all_topics();
-            
-            $(".topic-add").click(function () {
-                $(this).addClass("current");
-                $("#topics").fadeOut(300, function() { $(this).hide(); });
-                $("#api-topic").fadeIn(300, function() { $(this).show(); });
+    get_all_topics();
+    
+    $(".topic-add").click(function () {
+        $(this).addClass("current");
+        $("#topics").fadeOut(300, function() { $(this).hide(); });
+        $("#api-topic").fadeIn(300, function() { $(this).show(); });
+        $("#api-topic").find("input[name='title']").val("");
+        $("#api-topic").find("input[name='content']").val("");
+        $("#api-topic").find("input[name='id']").remove();
+    });
+
+    $("#topics").on("click", ".topic-edit", function (event) {
+        article = $(this).closest('article');
+        id = article.attr("data-id");
+        title = article.find("h2").text();
+        content = article.find("p").text();
+        $("#topics").fadeOut(300, function() { $(this).hide(); });
+        $("#api-topic").fadeIn(300, function() { $(this).show(); });
+        $("#api-topic").find("input[name='title']").val(title);
+        $("#api-topic").find("input[name='content']").val(content);
+        $("<input>").attr("type","hidden").attr("name","id").val(id).appendTo("#api-topic");
+    });
+
+    
+    $("#api-topic").submit(function(event) {
+        event.preventDefault();
+        id = $("input[name='id']").val();
+        title = $("input[name='title']").val();
+        content = $("input[name='content']").val();
+
+        if (Number(id) > 0) {
+            type = "PUT";
+            url = "{% url 'api_topic_edit' id=0 %}".replace(/0/, id.toString());
+        } else {
+            type = "POST";
+            url = "{% url 'api_topic_add' %}";
+        }
+
+        topic = {
+            "title": title,
+            "content": content
+        };
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: JSON.stringify(topic),
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            success: function(response) {
+                $(".topic-add").removeClass("current");
                 $("#api-topic").find("input[name='title']").val("");
                 $("#api-topic").find("input[name='content']").val("");
                 $("#api-topic").find("input[name='id']").remove();
-            });
-
-            $("#topics").on("click", ".topic-edit", function (event) {
-                article = $(this).closest('article');
-                id = article.attr("data-id");
-                title = article.find("h2").text();
-                content = article.find("p").text();
-                $("#topics").fadeOut(300, function() { $(this).hide(); });
-                $("#api-topic").fadeIn(300, function() { $(this).show(); });
-                $("#api-topic").find("input[name='title']").val(title);
-                $("#api-topic").find("input[name='content']").val(content);
-                $("<input>").attr("type","hidden").attr("name","id").val(id).appendTo("#api-topic");
-            });
-
-            
-            $("#api-topic").submit(function(event) {
-                event.preventDefault();
-                id = $("input[name='id']").val();
-                title = $("input[name='title']").val();
-                content = $("input[name='content']").val();
-
-                if (Number(id) > 0) {
-                    type = "PUT";
-                    url = "{% url 'api_topic_edit' id=0 %}".replace(/0/, id.toString());
-                } else {
-                    type = "POST";
-                    url = "{% url 'api_topic_add' %}";
-                }
-
-                topic = {
-                    "title": title,
-                    "content": content
-                };
-
-                $.ajax({
-                    type: type,
-                    url: url,
-                    data: JSON.stringify(topic),
-                    contentType: "application/json; charset=UTF-8",
-                    dataType: "json",
-                    success: function(response) {
-                        $(".topic-add").removeClass("current");
-                        $("#api-topic").find("input[name='title']").val("");
-                        $("#api-topic").find("input[name='content']").val("");
-                        $("#api-topic").find("input[name='id']").remove();
-                        $("#api-topic").fadeOut(300, function() { $(this).hide(); });
-                        $("#topics").fadeIn(300, function() { $(this).show(); });
-                        get_all_topics();
-                        setTimeout(function() {
-                            if (Number(id) > 0) {
-                                scroll = $("article[data-id='" + id + "']").offset().top;
-                            } else { scroll = $("#topics").height(); }
-                            $("html, body").animate({
-                                scrollTop: scroll
-                            }, 500);
-                        }, 500);
+                $("#api-topic").fadeOut(300, function() { $(this).hide(); });
+                $("#topics").fadeIn(300, function() { $(this).show(); });
+                get_all_topics();
+                setTimeout(function() {
+                    if (Number(id) > 0) {
+                        scroll = $("article[data-id='" + id + "']").offset().top;
                     }
-                });
-            });
-
-            $("#topics").on("click", ".topic-delete", function (event) {
-                event.preventDefault();
-                article = $(this).closest('article');
-                id = article.attr("data-id");
-                url = "{% url 'api_topic_delete' id=0 %}".replace(/0/, id.toString());
-                $.ajax({
-                    type: "DEL",
-                    url: url,
-                    success: function(response) {
-                        article.fadeOut(300, function() { article.remove(); });
-                    }
-                });
-            });
+                    $("html, body").animate({
+                        scrollTop: scroll
+                    }, 500);
+                }, 500);
+            }
         });
+    });
 
-        function get_all_topics() {
-            $("#topics").empty();
-            $.ajax({
-                type: "GET",
-                url: "{% url 'api_topic_all' %}",
-                dataType: "json",
-                success: function(response) {
-                    $.each(response, function (index, topic) {
-                        url = "{% url 'topic_show' id=0 %}".replace(/0/, topic.id.toString());
-                        $("#topics").append("<article data-id='" + topic.id + "'><header><h2><a href='" + url + "'>" + topic.title + "</a></h2><div><a class='topic-edit button'>Edit</a><a class='topic-delete button'>Delete</a></div></header><p>" + topic.content + "</p></article>");
-                    });
-                }
+    $("#topics").on("click", ".topic-delete", function (event) {
+        event.preventDefault();
+        article = $(this).closest('article');
+        id = article.attr("data-id");
+        url = "{% url 'api_topic_delete' id=0 %}".replace(/0/, id.toString());
+        $.ajax({
+            type: "DEL",
+            url: url,
+            success: function(response) {
+                article.fadeOut(300, function() { article.remove(); });
+            }
+        });
+    });
+});
+
+function get_all_topics() {
+    $("#topics").empty();
+    $.ajax({
+        type: "GET",
+        url: "{% url 'api_topic_all' %}",
+        dataType: "json",
+        success: function(response) {
+            $.each(response, function (index, topic) {
+                url = "{% url 'topic_show' id=0 %}".replace(/0/, topic.id.toString());
+                $("#topics").append("<article data-id='" + topic.id + "'><header><h2>" + topic.title + "</h2><div><a class='topic-edit button'>Edit</a><a class='topic-delete button'>Delete</a></div></header><p>" + topic.content + "</p></article>");
             });
         }
-        </script>
-	</body>
+    });
+}
+</script>
+</body>
 </html>
