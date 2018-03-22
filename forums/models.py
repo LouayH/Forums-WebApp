@@ -1,42 +1,34 @@
-import datetime
-class Member():
-	"""This class provides a way to store member name and age"""
+from django.db import models
+from django.core.validators import MinValueValidator 
 
-	def __init__(self, name, age):
-		self.id = 0
-		self.name = name
-		self.age = age
-		self.posts = []
+class Member(models.Model):
+	name = models.CharField(max_length=200)
+	age = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
-	def __str__(self):
+	def __repr__(self):
 		return (f"{self.name}, {self.age} Years Old")
 
-	def __dict__(self):
+	def as_dict(self):
 		return {
 			"id": self.id,
 			"name": self.name,
-			"age": self.age,
-			"posts": self.posts
+			"age": self.age
 		}
 
-class Post():
-	"""This class provides a way to store post title and content"""
+class Post(models.Model):
+	title = models.CharField(max_length=200)
+	content = models.TextField()
+	date = models.DateTimeField()
+	member = models.ForeignKey(Member, related_name="posts", on_delete=models.CASCADE)
 
-	def __init__ (self, title, content, member_id = 0):
-		self.id = 0
-		self.title = title
-		self.content = content
-		self.member_id = member_id
-		self.date = datetime.datetime.now()
+	def __repr__(self):
+		return (f"{self.title}")
 
-	def __str__(self):
-		return (f"{self.title}, {self.content[:20]}...")
-
-	def __dict__(self):
+	def as_dict(self):
 		return {
 			"id": self.id,
 			"title": self.title,
 			"content": self.content,
-			"member_id": self.member_id,
-			"date": self.date
+			"date": self.date,
+			"member_id": self.member_id
 		}

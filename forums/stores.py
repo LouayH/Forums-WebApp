@@ -1,76 +1,71 @@
 import itertools
+from . import models
+from django.utils import timezone
 
 class BaseStore():
 	"""This class provides CRUD Functions"""
-	def __init__(self, data_provider, last_id):
+	def __init__(self, data_provider):
 		self._data_provider = data_provider
-		self._last_id = last_id
 
 	def get_all(self):
-		return self._data_provider
+		return self._data_provider.objects.all().order_by('pk')
 
 	def get_by_id(self, id):
-		for instance in self.get_all():
-			if instance.id == id:
-				return instance
+		return self._data_provider.objects.get(pk=id)
 
 	def entity_exists(self, instance):
 		result = False
-		if instance is not None:
-			if instance is self.get_by_id(instance.id):
-				result = True
+		if instance is self.get_by_id(instance.id):
+			result = True
 		return result
 
-	def add(self, instance):
-		instance.id = self._last_id
-		self._data_provider.append(instance)
-		self._last_id += 1
-
-	def update (self, updated_instance):
-		instances = self.get_all()
-		for index, instance in enumerate(instances):
-			if instance.id == updated_instance.id:
-				instances[index] = updated_instance
-
 	def delete(self, id):
-		instance = self.get_by_id(id)
-		if instance is not None:
-			self._data_provider.remove(instance)
+		self._data_provider.objects.get(pk=id).delete()
 
 class MemberStore(BaseStore):
 	"""This class inherits from BaseStore to Manage Members Information"""
 
-	members = []
-	last_id = 1
-
 	def __init__(self):
-		super().__init__(self.members, self.last_id)
+		super().__init__(models.Member)
+
+	def add(self, instance):
+		i = self._data_provider.objects.create(name=instance.name, age=instance.age)
+		i.save()
+
+	def update (self, updated_instance):
+		i = self._data_provider.objects.get(pk=updated_instance.id)
+		i.name = updated_instance.name
+		i.age = updated_instance.age
+		i.save()
 
 	def get_by_name(self, name):
-		return (member for member in self.get_all() if member.name == name)
+		return self._data_provider.objects.get(name=name)
 
-	def get_members_with_posts(self, posts):
-		members = self.get_all()
-		for member, post in itertools.product(members, posts):
-			if post.member_id == member.id:
-				member.posts.append(post)
-		return members
+	def get_members_with_posts(self):
+		return self._data_provider.objects.prefetch_related('posts')
+		# member[index].posts.all()
 
 	def get_top_members_with_posts(self):
-		members = self.get_all()
-		members.sort(key=lambda member: len(member.posts), reverse=True)
-		return members[:2]
+		pass
+		# members = self.get_all()
+		# members.sort(key=lambda member: len(member.posts), reverse=True)
+		# return members[:2]
 
 class PostStore(BaseStore):
 	"""This class inherits from BaseStore to Manage Posts Information"""
 
-	posts = []
-	last_id = 1
-
 	def __init__(self):
-		super().__init__(self.posts, self.last_id)
+		super().__init__(models.Post)
+
+	def add(self, instance):
+		i = self._data_provider.objects.create(title=instance.title, content=instance.content, date=timezone.now(), member_id=instance.member_id)
+		i.save()
+
+	def update (self, updated_instance):
+		i = self._data_provider.objects.get(pk=updated_instance.id)
+		i.title = updated_instance.title
+		i.content = updated_instance.content
+		i.save()
 
 	def get_posts_by_date(self):
-		posts = self.get_all()
-		posts.sort(key=lambda post: post.date, reverse=True)
-		return posts
+		return self._data_provider.objects.all().order_by('-date')
